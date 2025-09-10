@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <fstream>
+#include <ctime>
 
 
 struct sim{
@@ -11,6 +12,14 @@ struct sim{
     std::vector<std::vector<double>> forces;
 
     void randomConfig() {
+        int minParticles = 2, maxParticles = 5;
+        double minMass = 1.0, maxMass = 10.0;
+        double minPosition = -100.0, maxPosition = 100.0;
+        double minVelocity = -10.0, maxVelocity = 10.0;
+        std::srand(std::time(0));
+        
+        int numParticles = minParticles + (std::rand() % (maxParticles - minParticles + 1));
+
 
 
     }
