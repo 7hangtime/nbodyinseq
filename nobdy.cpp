@@ -27,6 +27,7 @@ struct sim{
         velocities.resize(numParticles, std::vector<double>(3));
         forces.resize(numParticles, std::vector<double>(3, 0.0));
 
+        // loop to assign random values to each particle's properties
         for (int i = 0; i < numParticles; i++) {
             masses[i] = minMass + static_cast<double>(std::rand()) / RAND_MAX * (maxMass - minMass);
             for (int j = 0; j < 3; ++j) {
