@@ -85,6 +85,17 @@ struct sim{
             }
         }
 
+        double F = 0.0;
+        double R = 0.0;
+        for (int i=0; i < numParticles; i++){
+
+            if (i == numParticles - 1){continue;}
+
+            // getting r seperately
+            F = G * (masses[i] * masses[i+1]);
+
+        }
+
         
 
 
