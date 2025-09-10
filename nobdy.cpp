@@ -76,6 +76,16 @@ struct sim{
     }
 
     void forceCalculation() {
+        const double G = 6.67430e-11; // gravitational constant
+        
+        // clear forces
+        for (int i = 0; i < numParticles; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                forces[i][j] = 0.0;
+            }
+        }
+
+
 
     }
 };
