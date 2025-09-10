@@ -6,6 +6,8 @@
 
 
 struct sim{
+
+    int numParticles;
     std::vector<double> masses;
     std::vector<std::vector<double>> positions;
     std::vector<std::vector<double>> velocities;
@@ -19,7 +21,7 @@ struct sim{
         double minForce = -1.0, maxForce = 1.0;
         std::srand(std::time(0));
 
-        int numParticles = minParticles + (std::rand() % (maxParticles - minParticles + 1));
+        numParticles = minParticles + (std::rand() % (maxParticles - minParticles + 1));
 
         // Resizing is more efficient than pushing back elements one by one
         masses.resize(numParticles);
@@ -70,6 +72,10 @@ struct sim{
     }
 
     void loadFromFile(const std::string& filename) {
+
+    }
+
+    void forceCalculation() {
 
     }
 };
