@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <ctime>
+#include <cmath>
 
 
 struct sim{
@@ -77,6 +78,7 @@ struct sim{
 
     void forceCalculation() {
         const double G = 6.67430e-11; // gravitational constant
+        const double soft = 1e-9; // softening to prevet div by zero
         
         // clear forces
         for (int i = 0; i < numParticles; ++i) {
@@ -84,16 +86,28 @@ struct sim{
                 forces[i][j] = 0.0;
             }
         }
+        
+        for (int i = 0; i < numParticles; i++) {
+            for (int j = i + 1; j < numParticles; j++) {
 
-        double F = 0.0;
-        double R = 0.0;
-        for (int i=0; i < numParticles; i++){
+                std::vector<double> r(3);
+                for (int k = 0; k < 3; ++k) {
+                    r[k] = positions[i][k] - positions[j][k];
+                }
 
-            if (i == numParticles - 1){continue;}
+                double rSqr = (r[0]*r[0] + r[1]*r[1] + r[2]*r[2]) + soft;
+                double dist = std::sqrt(rSqr);
 
-            // getting r seperately
-            F = G * (masses[i] * masses[i+1]);
+                // magnitude = G * m1 * m2 / r^2
+                double mag = G * masses[i] * masses[j] / rSqr;
 
+                // force vector = magnitude * (r / ||r||)
+                for (int k = 0; k < 3; ++k) {
+                    double Fcomp = mag * r[k] / dist;
+                    forces[i][k] += Fcomp;   
+                    forces[j][k] -= Fcomp;   
+                }
+            }
         }
 
         
