@@ -76,7 +76,7 @@ struct sim{
 
     }
 
-    void forceCalculation() {
+    void forceCalc() {
         const double G = 6.67430e-11; // gravitational constant
         const double soft = 1e-9; // softening to prevet div by zero
         
@@ -91,7 +91,7 @@ struct sim{
             for (int j = i + 1; j < numParticles; j++) {
 
                 std::vector<double> r(3);
-                for (int k = 0; k < 3; ++k) {
+                for (int k = 0; k < 3; k++) {
                     r[k] = positions[i][k] - positions[j][k];
                 }
 
@@ -102,18 +102,25 @@ struct sim{
                 double mag = G * masses[i] * masses[j] / rSqr;
 
                 // force vector = magnitude * (r / ||r||)
-                for (int k = 0; k < 3; ++k) {
+                for (int k = 0; k < 3; k++) {
                     double Fcomp = mag * r[k] / dist;
                     forces[i][k] += Fcomp;   
                     forces[j][k] -= Fcomp;   
                 }
             }
         }
-
-        
-
-
     }
+
+    void intOfMotion(double t) {
+    for (int i = 0; i < numParticles; i++) {
+        for (int k = 0; k < 3; k++) {
+            double a = forces[i][k] / masses[i];   
+            velocities[i][k] += a * t;         
+            positions[i][k] += velocities[i][k] * t;
+        }
+    }
+}
+
 };
 
 int main() {
